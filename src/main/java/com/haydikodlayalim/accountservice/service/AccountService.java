@@ -1,8 +1,13 @@
 package com.haydikodlayalim.accountservice.service;
 
 import com.haydikodlayalim.accountservice.entity.Account;
+import com.haydikodlayalim.accountservice.repo.AccountRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import java.util.List;
 
 //Api a datayı sunacak olan bi katmanın olması gerekiyor.
 /*Bu katman için oluşturuldu.Bu class işi yüklencek.
@@ -19,23 +24,37 @@ burdada karşılıgının olması gerekiyor.
 * @repository: özellikle entegrasyon noktalarında bu bi veritabanı olabilirdi
 * veritabanına çıkış  noktamız olan classın sahip olması gereken anatasyon
 * */
+@RequiredArgsConstructor
  @Service
 public class AccountService {
 /*get metodu neye göre kayıt getirecek
 * bi parametre alacak.*/
     /*bi id parametre alacak bu id ye göre kaydı geri döndürsün*/
-    public Account get(String Id){
-return new Account("test-id");
+
+    //lombo
+    //Account repository e bağlanacağız.
+    //final constructor da injection yapacak..Constructorda injection da constructor oluşturmayacağız.
+    //onun yerine lombonun RequiredArgsConstructor kullanılır
+    // RequiredArgsConstructor : gereken  constructor varsa onunla inject et
+    private final AccountRepository accountRepository;
+
+    public Account get(String id){
+        //parametre gelen id li kaydı döndüren metot bulunur
+        //bulursa datanın kendisini değilse hata verir(exception)
+        return accountRepository.findById(id).orElseThrow(()-> new IllegalArgumentException());
 
     }
 //kayıt yaparken account nesnesini keayıt etsin.
     public Account save(Account account){
-        return new Account("test-id");
+        return accountRepository.save(account);
 
     }
 //Account nesnesi update edilsin
-    public Account update(Account account){
-        return new Account("test-id");
+    public Account update(String id, Account account){
+        //id null ise mesaj ver
+        Assert.isNull(id,"Id cannot be null " );
+        //idyi nesneyi account olarak getirip, o account u aktarım yapıp öyle gönderme
+        return accountRepository.save(account);
 
     }
 // ya id ile yada nesnenin kendisi ile delete edilebilir.
@@ -44,6 +63,10 @@ return new Account("test-id");
     //daha az veri göndermiş oluruz sunucuya
     public void delete(String id){
 
+    }
+
+    public List<Account> findAll() {
+       return  accountRepository.findAll();
     }
     /*sayfalayarak kayıtlaar geri dönecek*/
     /*spring in pageAble diye bi classı kullanılacak.

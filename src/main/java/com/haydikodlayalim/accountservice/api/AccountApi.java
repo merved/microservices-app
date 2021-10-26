@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 //Bunun bi arayüzü olmalıydı.O arayüzün bu class sadece implementasyonu olmalıydı
 
 
@@ -60,8 +62,9 @@ yada geri dönüş nesnelerinize aynı tiple sarmalayabilirsiniz.
 
     }
 @PutMapping
-    public ResponseEntity<Account> update(Account account){
-        return  ResponseEntity.ok( accountService.update(account));
+//id yi --> RequestBody de nesnenin kendisi gelsin ama path param olarak da string olarak id yi parametre alalım
+    public ResponseEntity<Account> update(@PathVariable("id") String id, @RequestBody Account account){
+        return  ResponseEntity.ok( accountService.update(id,account));
 
     }
     //httpde sunucudaki bi kaydı silmek için http delete metodu kullanılır
@@ -70,6 +73,13 @@ yada geri dönüş nesnelerinize aynı tiple sarmalayabilirsiniz.
         /*delete den bişe geri dönmüyordu bu nedenle , metot çağrılacak bu metot çağrıldıktan sonra geri dönüş yok
         * */
         accountService.delete(id);
+
+    }
+    //tüm kayıtları listeleme
+    @GetMapping
+    public ResponseEntity<List<Account>> getAll(){
+        return  ResponseEntity.ok( accountService.findAll());
+
 
     }
     /*
