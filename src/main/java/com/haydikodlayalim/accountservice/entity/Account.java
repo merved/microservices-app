@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.UUID;
 
 @Getter //tüm fieldlar için getter
-
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id"})
@@ -28,6 +27,13 @@ public class Account implements Serializable {
     @Setter
     @Column(value = "email")
     private String email;
+    @Setter
+    @Column(value = "surname")
+    private String surname;
+
+    @Setter
+    @Column(value = "name")
+    private String name;
 
     @Setter
     @Column(value = "pwd")
@@ -36,7 +42,7 @@ public class Account implements Serializable {
     @Column(value = "created_at")
     private Date createdAt;
 
-    @Column(value = "is_activated")
+    @Column(value = "is_activate")
     private Boolean active;
 
 

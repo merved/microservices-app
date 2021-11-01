@@ -2,6 +2,7 @@ package com.haydikodlayalim.accountservice.api;
 
 import com.haydikodlayalim.accountservice.entity.Account;
 import com.haydikodlayalim.accountservice.service.AccountService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

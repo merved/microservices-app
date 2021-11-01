@@ -3,7 +3,7 @@ package com.haydikodlayalim.accountservice.service;
 import com.haydikodlayalim.accountservice.entity.Account;
 import com.haydikodlayalim.accountservice.repo.AccountRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -25,7 +25,7 @@ burdada karşılıgının olması gerekiyor.
 * veritabanına çıkış  noktamız olan classın sahip olması gereken anatasyon
 * */
 @RequiredArgsConstructor
- @Service
+@Service
 public class AccountService {
 /*get metodu neye göre kayıt getirecek
 * bi parametre alacak.*/

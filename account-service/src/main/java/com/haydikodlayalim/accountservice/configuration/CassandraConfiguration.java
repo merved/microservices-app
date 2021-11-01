@@ -1,21 +1,15 @@
 package com.haydikodlayalim.accountservice.configuration;
 
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.cassandra.config.*;
+import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
+import org.springframework.data.cassandra.config.CassandraClusterFactoryBean;
+import org.springframework.data.cassandra.config.SchemaAction;
 import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
-import org.springframework.data.cassandra.repository.config.EnableReactiveCassandraRepositories;
-
 
 @Configuration
 @EnableCassandraRepositories
 public class CassandraConfiguration extends AbstractCassandraConfiguration {
-    //@EnableReactiveCassandraRepositories
-//@EnableCassandraRepositories
-    //oto konfigürasyon şeklinde çalıştıgı için keyspacename i istiyor.Çünkü keysapce i bilmez. implement ederiz
-    //implement ederek keyspace i vermemiz gerekiyor
-    // bu keyspace name de application.properties içerisinde bulundurucaz
 
     @Value("${spcloud.cassandra.contact.point}")
     private String contactPoint;
@@ -32,21 +26,19 @@ public class CassandraConfiguration extends AbstractCassandraConfiguration {
     @Value("${spcloud.cassandra.password}")
     private String password;
 
-
-
     @Override
     protected String getKeyspaceName() {
         return keyspaceName;
     }
 
     @Override
-    protected String getContactPoints() {
-        return contactPoint;
+    protected int getPort() {
+        return port;
     }
 
     @Override
-    protected int getPort() {
-        return port;
+    protected String getContactPoints() {
+        return contactPoint;
     }
 
     @Override
@@ -61,11 +53,9 @@ public class CassandraConfiguration extends AbstractCassandraConfiguration {
 
     @Override
     public CassandraClusterFactoryBean cluster() {
-        CassandraClusterFactoryBean clusterFactoryBean =super.cluster();
-        clusterFactoryBean.setPassword(password);
+        CassandraClusterFactoryBean clusterFactoryBean = super.cluster();
         clusterFactoryBean.setUsername(username);
-        clusterFactoryBean.setContactPoints(contactPoint);
-
-        return  clusterFactoryBean;
+        clusterFactoryBean.setPassword(password);
+        return clusterFactoryBean;
     }
 }
